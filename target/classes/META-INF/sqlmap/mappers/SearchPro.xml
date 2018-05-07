@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="SearchPro">
+	<resultMap type="SearchPro" id="SearchProResult">
+		<result column="p_email" property="p_email"/>
+		<result column="p_pw" property="p_pw"/>
+		<result column="p_name" property="p_name"/>
+		<result column="p_nickname" property="p_nickname"/>
+		<result column="p_tel1" property="p_tel1"/>
+		<result column="p_tel2" property="p_tel2"/>
+		<result column="p_tel3" property="p_tel3"/>
+		<result column="p_accountnum" property="p_accountnum"/>
+		<result column="p_bank" property="p_bank"/>
+		<result column="p_area" property="p_area"/>
+		<result column="p_point" property="p_point"/>
+		<result column="p_photo1" property="p_photo1"/>
+		<result column="p_drop" property="p_drop"/>
+		<result column="p_suspend" property="p_suspend"/>
+		<result column="p_date" property="p_date"/>
+		<result column="p_message" property="p_message"/>
+		<result column="p_photo2" property="p_photo2"/>
+		<result column="cate_num" property="cate_num"/>
+		<result column="jjimCnt" property="jjimCnt"/>
+		<result column="p_spec" property="p_spec"/>
+	</resultMap>
+    <select id="searchProforSM" parameterType="SearchPro" resultMap="SearchProResult">
+		SELECT * FROM(SELECT ROWNUM R,A.* FROM
+    		(SELECT * FROM PROMEMBERS WHERE P_AREA=#{p_area} AND CATE_NUM=#{cate_num} ORDER BY P_POINT DESC)A)
+            		WHERE R BETWEEN #{startRow} AND #{endRow}
+	</select>
+	<select id="searchProforSMCnt" parameterType="Searchpro" resultType="int">
+		SELECT COUNT(*) FROM PROMEMBERS WHERE P_AREA=#{p_area} AND CATE_NUM=#{cate_num}
+	</select>
+</mapper>

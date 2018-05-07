@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Claim">
+	<resultMap type="Claim" id="ClaimResult">
+		<result column="cl_num" property="cl_num"/>
+		<result column="cl_email" property="cl_email"/>
+		<result column="cl_title" property="cl_title" />
+		<result column="cl_content" property="cl_content"/>
+		<result column="cl_date" property="cl_date"/>
+		<result column="cl_cate" property="cl_cate"/>
+		<result column="cl_status" property="cl_status"/>
+		<result column="cl_nickname" property="cl_nickname"/>
+		<result column="startRow" property="startRow" />
+		<result column="endRow" property="endRow" />
+	</resultMap>
+	<insert id="claimInsert" parameterType="Claim"> 
+		INSERT INTO CLAIM VALUES('CLAIM'||CLAIM_SEQ.NEXTVAL,#{cl_email},#{cl_title}, #{cl_nickname},#{cl_content},SYSDATE,#{cl_cate},0) 
+	</insert>
+
+	<select id="claimListCount" parameterType="String" resultType="int"> 
+		SELECT COUNT(*) FROM CLAIM WHERE CL_EMAIL=#{cl_email} ORDER BY CL_DATE DESC 
+	</select>
+
+	<select id="claimList" parameterType="Claim" resultMap="ClaimResult"> 
+		SELECT * FROM (SELECT ROWNUM R,A.* FROM (SELECT * FROM CLAIM WHERE CL_EMAIL=#{cl_email} ORDER BY CL_DATE DESC)A) 
+			WHERE R BETWEEN #{startRow} AND #{endRow} 
+	</select>
+	
+	<select id="claimAdminList" parameterType="Claim" resultMap="ClaimResult"> 
+		SELECT * FROM (SELECT ROWNUM R,A.* FROM
+    		(SELECT * FROM CLAIM ORDER BY CL_DATE DESC)A)
+        		WHERE R BETWEEN #{startRow} AND #{endRow} 
+	</select>
+	
+	<update id="claimAnswerComplete" parameterType="String"> 
+		UPDATE CLAIM SET CL_STATUS = 1 WHERE CL_NUM = #{cl_num} 
+	</update>
+	
+	<update id="claimModify" parameterType="Claim"> 
+		UPDATE CLAIM SET CL_CONTENT = #{cl_content} WHERE CL_NUM=#{cl_num} 
+	</update>
+	
+	<delete id="claimDelete" parameterType="String"> 
+		DELETE CLAIM WHERE CL_NUM = #{cl_num} 
+	</delete>
+	<select id="totalClaim" resultType="int">
+		SELECT COUNT(*) FROM CLAIM
+	</select>
+	<select id="totalClaimBefore" resultType="int">
+		SELECT COUNT(*) FROM CLAIM WHERE CL_STATUS = 0
+	</select>
+	<select id="totalClaimAfter" resultType="int">
+		SELECT COUNT(*) FROM CLAIM WHERE CL_STATUS = 1
+	</select>
+	<select id="claimAdminListBefore" parameterType="Claim" resultMap="ClaimResult"> 
+		SELECT * FROM (SELECT ROWNUM R,A.* FROM
+    		(SELECT * FROM CLAIM WHERE CL_STATUS=0 ORDER BY CL_DATE DESC)A)
+    			WHERE R BETWEEN #{startRow} AND #{endRow} 
+	</select>
+	<select id="claimAdminListAfter" parameterType="Claim" resultMap="ClaimResult"> 
+		SELECT * FROM (SELECT ROWNUM R,A.* FROM
+    		(SELECT * FROM CLAIM WHERE CL_STATUS=1 ORDER BY CL_DATE DESC)A)
+    			WHERE R BETWEEN #{startRow} AND #{endRow} 
+	</select>
+	<select id="totalClaimAdminSearchListBefore" parameterType="Claim" resultType="int">
+		SELECT COUNT(*) FROM CLAIM WHERE (CL_EMAIL LIKE '%'||#{searchWord}||'%' 
+			OR CL_NICKNAME LIKE '%'||#{searchWord}||'%')
+				AND CL_STATUS=0 ORDER BY CL_DATE DESC
+	</select>
+	<select id="totalClaimAdminSearchListAfter" parameterType="Claim" resultType="int">
+		SELECT COUNT(*) FROM CLAIM WHERE (CL_EMAIL LIKE '%'||#{searchWord}||'%' 
+			OR CL_NICKNAME LIKE '%'||#{searchWord}||'%')
+				AND CL_STATUS=1 ORDER BY CL_DATE DESC
+	</select>
+	<select id="totalClaimAdminSearchList" parameterType="Claim" resultType="int">
+		SELECT COUNT(*) FROM CLAIM WHERE CL_EMAIL LIKE '%'||#{searchWord}||'%' 
+			OR CL_NICKNAME LIKE '%'||#{searchWord}||'%'
+				ORDER BY CL_DATE DESC
+	</select>
+	<select id="claimAdminSearchListBefore" parameterType="Claim" resultMap="ClaimResult">
+		SELECT * FROM (SELECT ROWNUM R,A.* FROM
+    		(SELECT * FROM CLAIM WHERE (CL_EMAIL LIKE '%'||#{searchWord}||'%' OR CL_NICKNAME LIKE '%'||#{searchWord}||'%') 
+    			 AND CL_STATUS=0 ORDER BY CL_DATE DESC)A)WHERE R BETWEEN #{startRow} AND #{endRow} 
+	</select>
+	<select id="claimAdminSearchListAfter" parameterType="Claim" resultMap="ClaimResult">
+		SELECT * FROM (SELECT ROWNUM R,A.* FROM
+    		(SELECT * FROM CLAIM WHERE (CL_EMAIL LIKE '%'||#{searchWord}||'%' OR CL_NICKNAME LIKE '%'||#{searchWord}||'%')
+    			 AND CL_STATUS=1 ORDER BY CL_DATE DESC)A)WHERE R BETWEEN #{startRow} AND #{endRow} 
+	</select>
+	<select id="claimAdminSearchList" parameterType="Claim" resultMap="ClaimResult">
+		SELECT * FROM (SELECT ROWNUM R,A.* FROM
+    		(SELECT * FROM CLAIM WHERE CL_EMAIL LIKE '%'||#{searchWord}||'%' OR CL_NICKNAME LIKE '%'||#{searchWord}||'%' 
+    			 ORDER BY CL_DATE DESC)A)WHERE R BETWEEN #{startRow} AND #{endRow} 
+	</select>
+	<select id="getClaim" parameterType="String" resultType="Claim">
+		SELECT * FROM CLAIM WHERE CL_NUM=#{cl_num}
+	</select>
+</mapper>

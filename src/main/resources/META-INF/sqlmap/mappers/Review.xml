@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Review">
+	<resultMap type="Review" id="ReviewResult">
+		<result column="re_num" property="re_num"/>
+		<result column="re_connum" property="re_connum"/>
+		<result column="re_name" property="re_name"/>
+		<result column="re_content" property="re_content"/>
+		<result column="re_date" property="re_date"/>
+		<result column="re_star" property="re_star"/>
+	</resultMap>
+</mapper>

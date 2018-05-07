@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Question">
+	<resultMap type="Question" id="QuestionResult">
+		<result column="q_num" property="q_num"/>
+		<result column="p_email" property="p_email"/>
+		<result column="f_email" property="f_email"/>
+		<result column="cate_num" property="cate_num"/>
+		<result column="q_title" property="q_title"/>
+		<result column="q_content" property="q_content"/>
+		<result column="q_date" property="q_date"/>
+		<result column="q_price" property="q_price"/>
+		<result column="q_accept" property="q_accept"/>
+		<result column="q_show" property="q_show"/>
+		<result column="q_star" property="q_star"/>
+	</resultMap>
+	
+	<!-- Question Insert -->
+	<insert id="questionInsert" parameterType="Question">
+		INSERT INTO QUESTION (Q_NUM, P_EMAIL, F_EMAIL, CATE_NUM, Q_TITLE, Q_CONTENT, Q_PRICE, Q_SHOW) 
+   			 VALUES('QUESTION'||QUESTION_SEQ.NEXTVAL,#{p_email}, #{f_email}, #{cate_num}, #{q_title}, #{q_content}, #{q_price}, 1)
+	</insert>
+	<select id="questionNowNum" resultType="String">
+		SELECT Q_NUM
+		    FROM (SELECT ROWNUM R, Q_NUM     
+		            FROM(SELECT Q_NUM FROM QUESTION ORDER BY Q_DATE DESC)A)
+		    WHERE R=1
+	</select>
+	<!-- Question List -->
+	<!-- 프로멤버의 정보에서 보이는 질문 List-->
+	<select id="questionList_Promembers" parameterType="Question" resultMap="QuestionResult">
+		SELECT *
+    		FROM (SELECT ROWNUM RN, A.*
+            		FROM (SELECT Q.*, P.P_NICKNAME, F.F_NICKNAME FROM QUESTION Q, PROMEMBERS P, FINDERMEMBERS F WHERE Q.P_EMAIL = P.P_EMAIL AND Q.F_EMAIL = F.F_EMAIL ORDER BY Q_DATE DESC)A)
+    		WHERE RN BETWEEN #{startRow} AND #{endRow} AND P_EMAIL = #{p_email}		
+	</select>
+	
+	<!-- 파인더멤버의 정보에서 보이는 질문 List-->
+	<select id="questionList_findermembers" parameterType="Question" resultMap="QuestionResult">
+		SELECT *
+    		FROM (SELECT ROWNUM RN, A.*
+            		FROM (SELECT Q.*, P.P_NICKNAME, F.F_NICKNAME FROM QUESTION Q, PROMEMBERS P, FINDERMEMBERS F WHERE Q.P_EMAIL = P.P_EMAIL AND Q.F_EMAIL = F.F_EMAIL ORDER BY Q_DATE DESC)A)
+    		WHERE RN BETWEEN #{startRow} AND #{endRow} AND F_EMAIL = #{f_email}		
+	</select>
+	
+	<!-- 분야별 질문List -->
+	<select id="questionList_category" parameterType="Question" resultMap="QuestionResult">
+		SELECT Q.*, P.P_NICKNAME, F.F_NICKNAME FROM QUESTION Q, PROMEMBERS P, FINDERMEMBERS F WHERE Q.P_EMAIL = P.P_EMAIL AND Q.F_EMAIL = F.F_EMAIL ORDER BY Q_DATE DESC
+	</select>	
+	
+	<!-- Question Total -->
+	<!-- Question Total_Promembers -->
+	<select id="questionTotal_Promembers" resultType="int" parameterType="String">
+		SELECT COUNT(*) FROM QUESTION WHERE P_EMAIL = #{p_email}
+	</select>
+	
+	<!-- Question Total_findermembers -->
+	<select id="questionTotal_findermembers" resultType="int" parameterType="String">
+		SELECT COUNT(*) FROM QUESTION WHERE F_EMAIL = #{f_email}
+	</select>	
+	
+	<!-- Question Total_category -->
+	<select id="questionTotal_category" resultType="int" parameterType="int">
+		SELECT COUNT(*) FROM QUESTION WHERE CATE_NUM= #{cate_num}
+	</select>	
+		
+	<!-- Question Modify -->
+<update id="questionModify" parameterType="Question"> 
+UPDATE QUESTION SET Q_TITLE=#{q_title}, Q_CONTENT=#{q_content}, Q_PRICE=#{q_price} WHERE Q_NUM=#{q_num} </update>
+
+<!-- Question Accept -->
+<select id="questionAccept" parameterType="String"> 
+UPDATE QUESTION SET Q_ACCEPT=1 WHERE Q_NUM=#{q_num} 
+</select>
+
+<!-- Question Reject -->
+<select id="questionReject" parameterType="String"> 
+UPDATE QUESTION SET Q_ACCEPT=2 WHERE Q_NUM=#{q_num} 
+</select>
+
+<!-- Question StanBy -->
+<select id="questionStanBy" parameterType="String"> 
+UPDATE QUESTION SET Q_ACCEPT=0 WHERE Q_NUM=#{q_num} 
+</select>
+
+<!-- Question Delete -->
+<delete id="questionDelete" parameterType="String"> 
+DELETE FROM QUESTION WHERE Q_NUM=#{q_num} 
+</delete>
+<!-- Question q_star -->
+
+
+<update id="questionQ_star" parameterType="Question"> 
+UPDATE QUESTION SET Q_STAR =#{q_star} WHERE Q_NUM=#{q_num} 
+</update>
+<select id="getQ_star" parameterType="String" resultType="int"> 
+SELECT Q_STAR FROM QUESTION WHERE Q_NUM=#{q_num} 
+</select>
+
+	<select id="questionMainBanner" parameterType="String" resultType="Question">
+	SELECT Q.*,P.P_NICKNAME FROM QUESTION Q,PROMEMBERS P 
+		WHERE P.P_EMAIL = Q.P_EMAIL AND Q.Q_NUM = #{q_num} 
+	</select>
+
+	<insert id="questionAutoInsert" parameterType="Question"> 
+	INSERT INTO QUESTION (Q_NUM, P_EMAIL, F_EMAIL, CATE_NUM, Q_TITLE, Q_CONTENT, Q_PRICE, Q_ACCEPT, Q_SHOW, Q_STAR) VALUES('QUESTION'||QUESTION_SEQ.NEXTVAL, #{p_email}, #{f_email}, #{cate_num}, #{q_title}, #{q_content}, 1000, 1, 1, #{q_star}) 
+	</insert>
+
+	<select id="getQuestion" parameterType="String" resultMap="QuestionResult"> 
+	SELECT*FROM QUESTION WHERE Q_NUM=#{q_num} 
+	</select>
+	<select id="searchQueforSM" parameterType="Question" resultMap="QuestionResult">
+	SELECT * FROM(SELECT ROWNUM R,A.* FROM
+    		(SELECT * FROM QUESTION WHERE Q_CONTENT LIKE '%'||#{searchWord}||'%' OR Q_TITLE LIKE '%'||#{searchWord}||'%' ORDER BY Q_DATE DESC)A)
+            		WHERE R BETWEEN #{startRow} AND #{endRow}
+	</select>
+	<select id="searchedQueCnt" parameterType="String" resultType="int">
+	SELECT COUNT(*) FROM QUESTION WHERE Q_CONTENT LIKE '%'||#{searchWord}||'%' OR Q_TITLE LIKE '%'||#{searchWord}||'%'
+	</select>
+</mapper>

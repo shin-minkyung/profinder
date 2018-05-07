@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Findermembers">
+	<resultMap type="Findermembers" id="FindermembersResult">
+		<result column="f_email" property="f_email" />
+		<result column="f_pw" property="f_pw" />
+		<result column="f_name" property="f_name" />
+		<result column="f_nickname" property="f_nickname" />
+		<result column="f_tel1" property="f_tel1" />
+		<result column="f_tel2" property="f_tel2" />
+		<result column="f_tel3" property="f_tel3" />
+		<result column="f_accountnum" property="f_accountnum" />
+		<result column="f_bank" property="f_bank" />
+		<result column="f_area" property="f_area" />
+		<result column="f_point" property="f_point" />
+		<result column="f_photo1" property="f_photo1" />
+		<result column="f_drop" property="f_drop" />
+		<result column="f_suspend" property="f_suspend" />
+		<result column="f_date" property="f_date" />
+		<result column="f_message" property="f_message" />
+		<result column="f_photo2" property="f_photo2" />
+	</resultMap>
+	<select id="getFindermember" resultType="Findermembers" parameterType="String">
+		 SELECT * FROM FINDERMEMBERS WHERE F_EMAIL = #{f_email} AND F_DROP = 0 
+	</select>
+	<!-- 로그인 -->
+	<select id="loginFinder" resultMap="FindermembersResult" parameterType="Findermembers">
+		SELECT * FROM FINDERMEMBERS WHERE F_EMAIL = #{f_email} AND F_DROP = 0
+	</select>
+	<!-- 로그인 아이디 체크  -->
+	<select id="getFinderIDChk" parameterType="String" resultType="int">
+		SELECT COUNT(*) FROM FINDERMEMBERS WHERE F_EMAIL = #{f_email} AND F_DROP = 0
+	</select>
+	<!-- 회원가입 이메일 중복체크 -->
+	<select id="findermembersConfirmEmail" resultType="int" parameterType="String"> SELECT COUNT(*) FROM FINDERMEMBERS WHERE F_EMAIL=#{f_email} </select>
+
+	<!-- 회원가입 닉네임 중복체크 -->
+	<select id="findermembersConfirmNickName" resultType="int" parameterType="String"> SELECT COUNT(*) FROM FINDERMEMBERS WHERE F_NICKNAME=#{f_nickname} </select>
+
+	<!-- 회원가입 -->
+	<insert id="findermembersInsert" parameterType="Findermembers"> 
+	INSERT INTO FINDERMEMBERS (F_EMAIL, F_PW, F_NAME, F_NICKNAME, F_TEL1, F_TEL2, F_TEL3, F_ACCOUNTNUM, F_BANK, F_AREA, F_PHOTO1,F_MESSAGE, F_PHOTO2) VALUES(#{f_email}, #{f_pw}, #{f_name}, #{f_nickname}, #{f_tel1}, #{f_tel2}, #{f_tel3}, #{f_accountnum}, #{f_bank}, #{f_area}, #{f_photo1}, #{f_message}, #{f_photo2}) </insert>
+
+	<insert id="finderInsert" parameterType="Findermembers"> 
+	INSERT INTO FINDERMEMBERS VALUES(#{f_email}, #{f_pw}, #{f_name}, #{f_nickname}, #{f_tel1},#{f_tel2},#{f_tel3}, null, null, #{f_area}, default, default, default, default, default, null, null) </insert>
+
+	<update id="pointUp" parameterType="Findermembers"> UPDATE FINDERMEMBERS SET F_POINT=F_POINT+#{f_point} WHERE F_EMAIL=#{f_email} </update>
+	
+	<!-- 비밀번호 / 사진 수정 -->
+	<update id="finderModifyPw" parameterType="Findermembers">
+		UPDATE FINDERMEMBERS SET 
+		<if test="f_photo1!=''"> F_PHOTO1=#{f_photo1}, </if>
+		F_PW=#{f_pw} 
+		WHERE F_EMAIL=#{f_email}
+	</update>
+	<!-- 수정 시 이메일 비교하기  -->
+	<select id="finderModifyChk" parameterType="String" resultType="int">
+		SELECT COUNT(*) FROM FINDERMEMBERS WHERE f_email=#{f_email}
+	</select>
+	<!-- 기본정보 수정 -->
+	<update id="finderNomalUpdate" parameterType="Findermembers">
+		UPDATE FINDERMEMBERS SET F_TEL1=#{f_tel1}, F_TEL2=#{f_tel2}, F_TEL3=#{f_tel3}, F_BANK=#{f_bank}, F_ACCOUNTNUM=#{f_accountnum}, F_AREA=#{f_area}, F_NAME=#{f_name}
+    	WHERE F_EMAIL = #{f_email}
+	</update>
+	<!-- 배경화면 , 알림말 수정 -->
+	<update id="finderadditionUpdate" parameterType="Findermembers">
+		UPDATE FINDERMEMBERS SET <if test="f_photo2 != ''">F_PHOTO2 = #{f_photo2},</if>F_MESSAGE = #{f_message} WHERE F_EMAIL = #{f_email}
+	</update>
+	<!-- 파인더 멤버 회원 탈퇴  -->
+	<update id="finderDropUpdate" parameterType="String">
+		UPDATE FINDERMEMBERS SET F_DROP = 1 WHERE F_EMAIL = #{f_email}
+	</update>
+	<!-- 파인더 멤버 아이디 찾기 -->
+	<select id="finderSearchID" parameterType="Findermembers" resultMap="FindermembersResult">
+		SELECT F_EMAIL FROM FINDERMEMBERS WHERE F_TEL1=#{f_tel1} AND F_TEL2=#{f_tel2} AND F_TEL3=#{f_tel3} AND F_NAME=#{f_name} AND F_DROP = 0
+	</select>
+	<!-- 파인더 멤버 비번 찾기 -->
+	<select id="finderSearchPW" parameterType="Findermembers" resultMap="FindermembersResult">
+		SELECT F_PW FROM FINDERMEMBERS WHERE F_TEL1=#{f_tel1} AND F_TEL2=#{f_tel2} AND F_TEL3=#{f_tel3} AND F_EMAIL=#{f_email} AND F_DROP = 0
+	</select>
+	<update id="cotnentsDownload" parameterType="Findermembers"> UPDATE FINDERMEMBERS SET F_POINT = F_POINT-#{f_point} WHERE F_EMAIL = #{f_email} </update>
+</mapper>

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Promembers">
+	<resultMap type="Promembers" id="PromembersResult">
+		<result column="p_email" property="p_email"/>
+		<result column="p_pw" property="p_pw"/>
+		<result column="p_name" property="p_name"/>
+		<result column="p_nickname" property="p_nickname"/>
+		<result column="p_tel1" property="p_tel1"/>
+		<result column="p_tel2" property="p_tel2"/>
+		<result column="p_tel3" property="p_tel3"/>
+		<result column="p_accountnum" property="p_accountnum"/>
+		<result column="p_bank" property="p_bank"/>
+		<result column="p_area" property="p_area"/>
+		<result column="p_point" property="p_point"/>
+		<result column="p_photo1" property="p_photo1"/>
+		<result column="p_drop" property="p_drop"/>
+		<result column="p_suspend" property="p_suspend"/>
+		<result column="p_date" property="p_date"/>
+		<result column="p_message" property="p_message"/>
+		<result column="p_photo2" property="p_photo2"/>
+		<result column="cate_num" property="cate_num"/>
+		<result column="jjimCnt" property="jjimCnt"/>
+		<result column="p_spec" property="p_spec"/>
+	</resultMap>
+	<select id="getPromembers" resultType="Promembers" parameterType="String">
+		SELECT * FROM PROMEMBERS WHERE P_EMAIL = #{p_email} AND P_DROP = 0	
+	</select>
+	<!-- 로그인 -->
+	<select id="LoginPro" resultMap="PromembersResult" parameterType="Promembers">
+		SELECT * FROM PROMEMBERS WHERE P_EMAIL = #{p_email} AND P_DROP = 0
+	</select>
+	<!-- 로그인 아이디 체크  -->
+	<select id="getProIDChk" parameterType="String" resultType="int">
+		SELECT COUNT(*) FROM PROMEMBERS WHERE P_EMAIL = #{p_email} AND P_DROP = 0
+	</select>
+	<!-- 회원가입 이메일 중복 체크 -->
+	<select id="promembersConfirmEmail"  resultType="int" parameterType="String">
+		SELECT COUNT(*) FROM PROMEMBERS WHERE P_EMAIL=#{p_email}
+	</select>
+	<!-- 회원가입 이메일 닉네임 체크 -->
+	<select id="promembersConfirmNickName"  resultType="int" parameterType="String">
+		SELECT COUNT(*) FROM PROMEMBERS WHERE P_NICKNAME=#{p_nickname}
+	</select>
+	<!-- 회원가입 -->
+	<insert id="promembersInsert" parameterType="Promembers">
+		INSERT INTO PROMEMBERS(P_EMAIL, P_PW, P_NAME,P_NICKNAME, P_TEL1, P_TEL2, P_TEL3, P_ACCOUNTNUM, P_BANK, P_AREA,P_PHOTO1, P_MESSAGE, P_PHOTO2, CATE_NUM)
+    	VALUES(#{p_email}, #{p_pw}, #{p_name}, #{p_nickname}, #{p_tel1}, #{p_tel2}, #{p_tel3}, #{p_accountnum}, #{p_bank}, #{p_area}, #{p_photo1},#{p_message},#{p_photo2}, #{cate_num})
+	</insert>
+	
+	<insert id="proInsert" parameterType="Promembers">
+		INSERT INTO PROMEMBERS 
+		VALUES(#{p_email},#{p_pw},#{p_name},#{p_nickname},#{p_tel1},#{p_tel2},#{p_tel3},null,null,#{p_area},default, default, default, default,default, null, null, #{cate_num},null)
+	</insert>
+	
+	<!-- 비밀번호 / 사진 수정 -->
+	<update id="proModifyPw" parameterType="Promembers">
+		UPDATE PROMEMBERS SET 
+		<if test="p_photo1!=''"> P_PHOTO1=#{p_photo1}, </if>
+		P_PW=#{p_pw} 
+		WHERE P_EMAIL=#{p_email}
+	</update>
+	<!-- 기본정보 수정 -->
+	<update id="proNomalUpdate" parameterType="Promembers">
+		UPDATE PROMEMBERS SET P_TEL1=#{p_tel1}, P_TEL2=#{p_tel2}, P_TEL3=#{p_tel3}, P_BANK=#{p_bank}, P_ACCOUNTNUM=#{p_accountnum}, P_AREA=#{p_area}, P_NAME=#{p_name}
+    	WHERE P_EMAIL = #{p_email}
+	</update>
+	<!-- 배경화면 , 알림말 수정 -->
+	<update id="proadditionUpdate" parameterType="Findermembers">
+		UPDATE PROMEMBERS SET <if test="p_photo2 != ''">P_PHOTO2 = #{p_photo2},</if>P_MESSAGE = #{p_message} WHERE P_EMAIL = #{p_email}
+	</update>
+	<!-- 프로 멤버 회원 탈퇴  -->
+	<update id="proDropUpdate" parameterType="String">
+		UPDATE PROMEMBERS SET P_DROP = 1 WHERE P_EMAIL = #{p_email}
+	</update>
+	<!-- 프로 멤버 아이디 찾기 -->
+	<select id="proSearchID" parameterType="Findermembers" resultMap="PromembersResult">
+		SELECT P_EMAIL FROM PROMEMBERS WHERE P_TEL1=#{p_tel1} AND P_TEL2=#{p_tel2} AND P_TEL3=#{p_tel3} AND P_NAME=#{p_name} AND P_DROP = 0
+	</select>
+	<!-- 프로 멤버 비번 찾기 -->
+	<select id="proSearchPW" parameterType="Findermembers" resultMap="PromembersResult">
+		SELECT P_PW FROM PROMEMBERS WHERE P_EMAIL=#{p_email} AND P_TEL1=#{p_tel1} AND P_TEL2=#{p_tel2} AND P_TEL3=#{p_tel3} AND P_DROP = 0
+	</select>
+	<update id="contentsPointUp" parameterType="Promembers">
+		UPDATE PROMEMBERS SET P_POINT = P_POINT + #{p_point} WHERE P_EMAIL = #{p_email}
+	</update>
+</mapper>

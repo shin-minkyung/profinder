@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+    PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<typeAliases>
+		<typeAlias type="com.tj.profinder.model.Admin" alias="Admin"/>	
+		<typeAlias type="com.tj.profinder.model.Alarm" alias="Alarm"/>
+		<typeAlias type="com.tj.profinder.model.Buy" alias="Buy"/>
+		<typeAlias type="com.tj.profinder.model.Claim" alias="Claim"/>
+		<typeAlias type="com.tj.profinder.model.Contents" alias="Contents"/>
+		<typeAlias type="com.tj.profinder.model.Findermembers" alias="Findermembers"/>
+		<typeAlias type="com.tj.profinder.model.Faq" alias="Faq"/>
+		<typeAlias type="com.tj.profinder.model.Favorite" alias="Favorite"/>
+		<typeAlias type="com.tj.profinder.model.FbComment" alias="FbComment"/>
+		<typeAlias type="com.tj.profinder.model.Fboard" alias="Fboard"/>
+		<typeAlias type="com.tj.profinder.model.Ppage" alias="Ppage"/>
+		<typeAlias type="com.tj.profinder.model.Promembers" alias="Promembers"/>
+		<typeAlias type="com.tj.profinder.model.Likes" alias="Likes"/>
+		<typeAlias type="com.tj.profinder.model.NewsComment" alias="NewsComment"/>
+		<typeAlias type="com.tj.profinder.model.Newsfeed" alias="Newsfeed"/>
+		<typeAlias type="com.tj.profinder.model.Qanswer" alias="Qanswer"/>
+		<typeAlias type="com.tj.profinder.model.Question" alias="Question"/>
+		<typeAlias type="com.tj.profinder.model.Quiz" alias="Quiz"/>
+		<typeAlias type="com.tj.profinder.model.Report" alias="Report"/>
+		<typeAlias type="com.tj.profinder.model.Review" alias="Review"/>
+		<typeAlias type="com.tj.profinder.model.SearchPro" alias="SearchPro"/>
+		<typeAlias type="com.tj.profinder.model.Visited" alias="Visited"/>
+		<typeAlias type="com.tj.profinder.model.Category" alias="Category"/>
+		<typeAlias type="com.tj.profinder.model.Fpage" alias="Fpage"/>
+	</typeAliases>
+	<mappers>
+		<mapper resource="META-INF/sqlmap/mappers/Admin.xml"/>
+		<mapper resource="META-INF/sqlmap/mappers/Alarm.xml"/>
+		<mapper resource="META-INF/sqlmap/mappers/Buy.xml"/>
+		<mapper resource="META-INF/sqlmap/mappers/Claim.xml"/>
+		<mapper resource="META-INF/sqlmap/mappers/Contents.xml"/>
+		<mapper resource="META-INF/sqlmap/mappers/Findermembers.xml"/>
+		<mapper resource="META-INF/sqlmap/mappers/Faq.xml"/>
+		<mapper resource="META-INF/sqlmap/mappers/Favorite.xml"/>
+		<mapper resource="META-INF/sqlmap/mappers/FbComment.xml"/>
+		<mapper resource="META-INF/sqlmap/mappers/Fboard.xml"/>
+		<mapper resource="META-INF/sqlmap/mappers/Ppage.xml"/>
+		<mapper resource="META-INF/sqlmap/mappers/Promembers.xml"/>
+		<mapper resource="META-INF/sqlmap/mappers/Likes.xml"/>
+		<mapper resource="META-INF/sqlmap/mappers/NewsComment.xml"/>
+		<mapper resource="META-INF/sqlmap/mappers/Newsfeed.xml"/>
+		<mapper resource="META-INF/sqlmap/mappers/Qanswer.xml"/>
+		<mapper resource="META-INF/sqlmap/mappers/Question.xml"/>
+		<mapper resource="META-INF/sqlmap/mappers/Quiz.xml"/>
+		<mapper resource="META-INF/sqlmap/mappers/Report.xml"/>
+		<mapper resource="META-INF/sqlmap/mappers/Review.xml"/>
+		<mapper resource="META-INF/sqlmap/mappers/SearchPro.xml"/>
+		<mapper resource="META-INF/sqlmap/mappers/Visited.xml"/>
+		<mapper resource="META-INF/sqlmap/mappers/Category.xml"/>
+		<mapper resource="META-INF/sqlmap/mappers/Fpage.xml"/>
+	</mappers>
+</configuration>

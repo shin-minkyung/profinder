@@ -1,0 +1,57 @@
+@charset "UTF-8";
+	#fpageLeftWing{
+		position:relative;
+		width:1000px;
+	}
+	#fpageLeftWing .fpageLeftWing_position{
+		
+		position: absolute;
+		left:-134px;
+	}
+	#fpageLeftWing .fpageLeftWing_position .fpageLeftWing_wrap{
+		width:130px;
+		height:285px;
+		position: fixed;
+		background-color:#abb9bf;
+		border:1px solid #abb9bf;
+		box-shadow:1px 5px 0px #788b92;
+		border-radius:10px;
+	}
+	#fpageLeftWing .fpageLeftWing_position .fpageLeftWing_wrap .wing1 img{
+	width:30px;
+	padding-top:10px;
+	}
+	#fpageLeftWing .fpageLeftWing_position .fpageLeftWing_wrap .wing2 ul li:first-child{
+		width:70%;
+		color:white;
+		font-size:1.5em;
+		font-weight:bold;
+		text-align:left;
+		padding-left:18px;
+	}
+	#fpageLeftWing .fpageLeftWing_position .fpageLeftWing_wrap .wing2 ul li:last-child{
+		padding-top:6px;
+	}
+	#fpageLeftWing .fpageLeftWing_position .fpageLeftWing_wrap .wing2 ul li:last-child a{
+		display:block;
+		color:white;
+		font-weight:bold;
+		background-color:#788b92;
+		text-decoration:none;
+		width:24px;
+		height:24px;
+		border-radius:20px;
+	}
+	#fpageLeftWing .fpageLeftWing_position .fpageLeftWing_wrap .wing3{
+		padding-left:25px;
+		padding-top:20px;
+	}
+	#fpageLeftWing .fpageLeftWing_position .fpageLeftWing_wrap .wing3 a{
+		display:block;
+		color:white;
+		width:80px;
+		background-color:#788b92;
+		font-weight:bold;
+		text-decoration:none;
+		border-radius:20px;
+	}

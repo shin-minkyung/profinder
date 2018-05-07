@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Contents">
+	<resultMap type="Contents" id="ContentsResult">
+		<result column="con_num" property="con_num"/>
+		<result column="p_email" property="p_email"/>
+		<result column="con_title" property="con_title"/>
+		<result column="con_content" property="con_content"/>
+		<result column="con_file1" property="con_file1"/>
+		<result column="con_file2" property="con_file2"/>
+		<result column="con_file3" property="con_file3"/>
+		<result column="con_price" property="con_price"/>
+		<result column="con_date" property="con_date"/>
+		<result column="cate_num" property="cate_num"/>
+		<result column="con_download" property="con_download"/>
+		<result column="con_del" property="con_del"/>
+		<result property="lcnt" column="lcnt"/>
+	</resultMap>
+	<insert id="contentsInsert" parameterType="Contents">
+		INSERT INTO CONTENTS VALUES('CONTENTS'||CONTENTS_SEQ.NEXTVAL,#{p_email},
+    		#{con_title},#{con_content},#{con_file1},#{con_file2},#{con_file3},#{con_price},SYSDATE,#{cate_num},0,0)
+	</insert>
+	<select id="contentsList" parameterType="String" resultMap="ContentsResult">
+		SELECT * FROM (SELECT ROWNUM R,A.*  FROM 
+    		(SELECT * FROM CONTENTS WHERE P_EMAIL = #{p_email} ORDER BY CON_DATE DESC)A)
+        		WHERE R BETWEEN 1 AND 5
+	</select>
+	<select id="contentsNowNum" resultType="String">
+		SELECT CON_NUM FROM (SELECT ROWNUM R,CON_NUM FROM
+    		(SELECT CON_NUM FROM CONTENTS ORDER BY CON_DATE DESC)A)
+        		WHERE R=1
+	</select>
+	<select id="contentsMainBanner" parameterType="String" resultType="Contents"> SELECT C.*,P_NICKNAME FROM CONTENTS C,PROMEMBERS P WHERE C.P_EMAIL=P.P_EMAIL AND CON_NUM = #{con_num} </select>
+	<insert id="contentsAutoInsert" parameterType="Contents">
+		INSERT INTO CONTENTS VALUES('CONTENTS'||CONTENTS_SEQ.NEXTVAL,#{p_email},
+    		#{con_title},#{con_content},#{con_file1},null,null,#{con_price},SYSDATE,#{cate_num},#{con_download},0)
+	</insert>
+	<select id="eduContentsListforSearchmain" resultMap="ContentsResult">
+		SELECT * FROM(SELECT ROWNUM R, A.* FROM
+    		(SELECT * FROM CONTENTS  WHERE CATE_NUM=1
+                ORDER BY CON_DOWNLOAD DESC)A)
+            		WHERE R BETWEEN #{startRow} AND #{endRow}
+	</select>
+	<select id="topEduCon6" resultMap="ContentsResult">
+		SELECT * FROM(SELECT ROWNUM R, A.* FROM
+    		(SELECT * FROM CONTENTS  WHERE CATE_NUM=1
+                ORDER BY CON_DOWNLOAD DESC)A)
+            		WHERE R BETWEEN 1 AND 6
+	</select>
+	<select id="topConents" resultMap="ContentsResult">
+		SELECT * FROM(SELECT ROWNUM R, A.* FROM
+    		(SELECT * FROM CONTENTS  WHERE CATE_NUM=#{cate_num}
+                ORDER BY CON_DOWNLOAD DESC)A)
+            		WHERE R BETWEEN #{startRow} AND #{endRow}
+	</select>
+	<select id="totalContents" resultType="int">
+	  SELECT COUNT(*) FROM CONTENTS
+	</select>
+	<select id="allContentsList" resultMap="ContentsResult">
+	SELECT * FROM (SELECT ROWNUM R, A.* FROM 
+	  (SELECT*FROM CONTENTS ORDER BY CON_DATE DESC)A) 
+	     WHERE R BETWEEN #{startRow} AND #{endRow}
+	</select>
+	<select id="getContents" parameterType="String"  resultMap="ContentsResult">
+	SELECT * FROM CONTENTS WHERE CON_NUM=#{con_num}
+	</select>
+	<select id="searchContents" parameterType="Contents" resultMap="ContentsResult">
+	SELECT * FROM (
+      SELECT ROWNUM R, A.* FROM (
+       SELECT*FROM CONTENTS WHERE CATE_NUM=#{cate_num} AND (CON_TITLE LIKE '%'||#{searchWord}||'%' OR CON_CONTENT LIKE '%'||#{searchWord}||'%') 
+         ORDER BY CON_DATE DESC)A) 
+          WHERE R BETWEEN #{startRow} AND #{endRow}
+	</select>
+	<select id="searchedConCnt" resultType="int" parameterType="Contents">
+	 SELECT COUNT(*) FROM CONTENTS WHERE CATE_NUM=#{cate_num} AND (CON_TITLE LIKE '%'||#{searchWord}||'%' OR CON_CONTENT LIKE '%'||#{searchWord}||'%')
+	</select>
+	<select id="contentsLikeCnt" parameterType="String" resultType="int"> SELECT COUNT(L_NUM) LCNT FROM LIKES WHERE L_NUM=#{con_num} </select>
+
+<update id="contentsDelete" parameterType="String"> UPDATE CONTENTS SET CON_DEL = 1 WHERE CON_NUM = #{con_num} </update>
+
+<update id="contentsDownloadUp" parameterType="String"> UPDATE CONTENTS SET CON_DOWNLOAD = CON_DOWNLOAD+1 WHERE CON_NUM = #{con_num} </update>
+</mapper>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Favorite">
+	<resultMap type="Favorite" id="FavoriteResult">
+		<result column="p_email" property="p_email"/>
+		<result column="f_email" property="f_email"/>
+		<result column="cnt" property="cnt"/>
+		<result column="startRow" property="startRow"/>
+		<result column="endRow" property="endRow"></result>
+	</resultMap>
+	<select id="favoriteMainBannerPromembers" resultMap="FavoriteResult"> 
+	SELECT * FROM(SELECT ROWNUM R,A.* FROM (SELECT P_EMAIL,COUNT(P_EMAIL) CNT FROM FAVORITE GROUP BY P_EMAIL ORDER BY CNT DESC)A) WHERE R BETWEEN 1 AND 3 
+	</select>
+
+	<select id="favoriteMainBannerPromembersAjax" resultMap="FavoriteResult" parameterType="Favorite"> 
+	SELECT * FROM(SELECT ROWNUM R,A.* FROM (SELECT P_EMAIL,COUNT(P_EMAIL) CNT FROM FAVORITE GROUP BY P_EMAIL ORDER BY CNT DESC)A) WHERE R BETWEEN #{startRow} AND #{endRow} 
+	</select>
+	
+	<select id="topEduPros6" resultType="Favorite"> 
+	SELECT * FROM(SELECT ROWNUM R, A.* FROM (SELECT P.P_EMAIL , COUNT(P.P_EMAIL) CNT FROM FAVORITE F, PROMEMBERS P WHERE F.P_EMAIL=P.P_EMAIL AND CATE_NUM=1 GROUP BY P.P_EMAIL ORDER BY CNT DESC)A) WHERE R BETWEEN 1 AND 6 
+	</select>
+	
+	<insert id="insertJjim" parameterType="Favorite"> 
+	INSERT INTO FAVORITE VALUES(#{f_email}, #{p_email}) 
+	</insert>
+	
+	<select id="topEduPros" resultMap="FavoriteResult"> 
+	SELECT * FROM(SELECT ROWNUM R, A.* FROM (SELECT P.P_EMAIL , COUNT(P.P_EMAIL) CNT FROM FAVORITE F, PROMEMBERS P WHERE F.P_EMAIL=P.P_EMAIL AND CATE_NUM=1 GROUP BY P.P_EMAIL ORDER BY CNT DESC)A) WHERE R BETWEEN #{startRow} AND #{endRow} 
+	</select>
+	
+	<select id="topBizPros" resultMap="FavoriteResult"> 
+	SELECT * FROM(SELECT ROWNUM R, A.* FROM (SELECT P.P_EMAIL , COUNT(P.P_EMAIL) CNT FROM FAVORITE F, PROMEMBERS P WHERE F.P_EMAIL=P.P_EMAIL AND CATE_NUM=2 GROUP BY P.P_EMAIL ORDER BY CNT DESC)A) WHERE R BETWEEN #{startRow} AND #{endRow} 
+	</select>
+		
+	<select id="topPros" resultMap="FavoriteResult"> 
+	SELECT * FROM(SELECT ROWNUM R, A.* FROM (SELECT P.P_EMAIL , COUNT(P.P_EMAIL) CNT FROM FAVORITE F, PROMEMBERS P WHERE F.P_EMAIL=P.P_EMAIL AND CATE_NUM=#{cate_num} GROUP BY P.P_EMAIL ORDER BY CNT DESC)A) WHERE R BETWEEN #{startRow} AND #{endRow} 
+	</select>
+		
+	<select id="getJjimList" parameterType="Favorite" resultMap="FavoriteResult">
+	SELECT*FROM (SELECT ROWNUM R, A.* FROM
+      (SELECT F.*, FM.F_NICKNAME,F_PHOTO1 FROM FAVORITE F, FINDERMEMBERS FM WHERE F.F_EMAIL=FM.F_EMAIL AND P_EMAIL=#{p_email}) A)
+         WHERE R BETWEEN #{startRow} AND #{endRow}	
+	</select>
+	
+	<select id="getJjimCnt" parameterType="String" resultType="int">
+	SELECT COUNT(*) FROM FAVORITE WHERE P_EMAIL=#{p_email}
+	</select>
+	
+	<select id="jjimChk" parameterType="Favorite" resultType="int">
+	SELECT COUNT(*) FROM FAVORITE WHERE F_EMAIL=#{f_email} AND P_EMAIL=#{p_email}
+	</select>
+	
+	<delete id="deleteJjim" parameterType="Favorite">
+	DELETE FROM FAVORITE WHERE F_EMAIL=#{f_email} AND P_EMAIL=#{p_email}
+	</delete>
+	
+	<select id="getmyJjimList" parameterType="Favorite" resultType="Favorite">
+	SELECT*FROM (SELECT ROWNUM R, A.* FROM
+      (SELECT F.*, PM.P_NICKNAME,P_PHOTO1 FROM FAVORITE F, PROMEMBERS PM WHERE F.P_EMAIL=PM.P_EMAIL AND F_EMAIL=#{f_email}) A)
+         WHERE R BETWEEN #{startRow} AND #{endRow}
+	</select>
+	
+	<select id="getmyJjimCnt" parameterType="String" resultType="int">
+	SELECT COUNT(*) FROM FAVORITE WHERE F_EMAIL=#{f_email}
+	</select>
+	
+	
+</mapper>

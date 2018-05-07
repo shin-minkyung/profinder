@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Quiz">
+	<resultMap type="Quiz" id="QuizResult">
+		<result column="quiz_num" property="quiz_num"/>
+		<result column="p_email" property="p_email"/>
+		<result column="quiz_group" property="quiz_group"/>
+		<result column="quiz_answer" property="quiz_answer"/>
+		<result column="quiz_img" property="quiz_img"/>
+		<result column="quiz_select1" property="quiz_select1"/>
+		<result column="quiz_select2" property="quiz_select2"/>
+		<result column="quiz_select3" property="quiz_select3"/>
+		<result column="quiz_select4" property="quiz_select4"/>
+		<result column="quiz_price" property="quiz_price"/>
+	</resultMap>
+</mapper>

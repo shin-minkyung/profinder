@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Alarm">
+	<resultMap type="Alarm" id="AlarmResult">
+		<result column="al_receiver" property="al_receiver"/>
+		<result column="al_refnum" property="al_refnum"/>
+		<result column="al_checknum" property="al_checknum"/>
+	</resultMap>
+	<select id="getAlarmCnt" parameterType="String" resultType="int">
+	SELECT COUNT(*) FROM ALARM WHERE AL_RECEIVER=#{al_receiver}
+	</select>
+	<insert id="insertJjimAlarm" parameterType="Favorite">
+	INSERT INTO ALARM VALUES(#{p_email},'ppageJjimView.do',#{f_email})
+	</insert>
+	<select id="getjjimAlarmList" parameterType="String" resultType="Alarm">	
+	SELECT A.*, F_PHOTO1,F_NICKNAME FROM ALARM A, FINDERMEMBERS F WHERE AL_RECEIVER=#{p_email} AND A.AL_CHECKNUM=F.F_EMAIL
+	</select>
+	<delete id="deleteAlarm" parameterType="Alarm">
+	DELETE FROM ALARM WHERE AL_REFNUM=#{al_refnum} AND AL_CHECKNUM=#{al_checknum} AND AL_RECEIVER=#{al_receiver}
+	</delete>
+</mapper>

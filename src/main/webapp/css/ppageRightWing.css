@@ -1,0 +1,36 @@
+@charset "UTF-8";
+#ppageRightWing{
+		position:relative;
+		width:1000px;
+	}
+	#ppageRightWing .ppageRightWing_position{		
+		position: absolute;
+		left:1006px;
+		top:355px;
+	}
+	#ppageRightWing .ppageRightWing_position .ppageRightWing_wrap{
+		width:140px;
+		height:275px;
+		position: fixed;
+		background-color:white;
+		border:1px solid #dee0e3;
+		box-shadow:1px 2px 4px #d3d3de;
+	}
+	#ppageRightWing .ppageRightWing_position .ppageRightWing_wrap .wing1,
+	#ppageRightWing .ppageRightWing_position .ppageRightWing_wrap .wing2,
+	#ppageRightWing .ppageRightWing_position .ppageRightWing_wrap .wing3{
+		border-bottom:1px solid #dee0e3;
+		margin-left:10px;
+		margin-right:10px;
+		padding-top:10px;
+	}
+	#ppageRightWing .ppageRightWing_position .ppageRightWing_wrap .wing1 p,
+	#ppageRightWing .ppageRightWing_position .ppageRightWing_wrap .wing2 p,
+	#ppageRightWing .ppageRightWing_position .ppageRightWing_wrap .wing3 p{
+		color:#382e84;
+	}
+	#ppageRightWing .ppageRightWing_position .ppageRightWing_wrap .wing1 h3,
+	#ppageRightWing .ppageRightWing_position .ppageRightWing_wrap .wing2 h3,
+	#ppageRightWing .ppageRightWing_position .ppageRightWing_wrap .wing3 h3{
+		font-weight:bold;
+	}

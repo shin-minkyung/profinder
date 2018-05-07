@@ -1,0 +1,308 @@
+@charset "UTF-8";
+@font-face{font-family:'Nanum Gothic'; src:url('../font/nanum_gothic_ultralight.ttf')}
+body, table, div, p {font-family:'Nanum Gothic';}
+	#main{
+		width:1000px;
+		background-color:white;		
+	}
+	.main_wrap{
+	  margin-bottom:100px;
+	  padding-bottom:250px;
+	}
+	#main .main_position .main_wrap .main1 .main1-1{
+		background-color:#158CBA;
+		height:200px;
+		position: relative;
+	}
+	#main .main_position .main_wrap .main1 .main1-1-bg{		
+		background-repeat:no-repeat;
+		background-size:100% 200px;		
+		height:200px;
+		position: relative;
+	}
+	#main .main_position .main_wrap .main1 .main1-2{
+		height:200px;
+		position:relative;
+	}
+	.main1-1-1{
+		position:absolute;
+		top:25px;
+		left:37px;
+		background-color:#158CBA;
+		width:211px;
+		height:210px;
+		border:5px solid white;
+		border-radius:10px;
+		
+	}
+	.main1-1-1 img{
+		border-radius:5px;
+		width:201px;
+		height:205px;
+	}
+	#main .main_position .main_wrap .main1 .main1-1 .main1-1-1 img{
+		border-radius:5px;
+	}
+	#main .main_position .main_wrap .main1 .main1-2 .main1-2-1{
+		position:absolute;
+		top:30px;
+		left:40px;
+		line-height:12px;
+	}
+	#main .main_position .main_wrap .main1 .main1-2 .main1-2-1 p,h1{
+		text-align:left;
+		margin:15px;	
+	}
+	#main .main_position .main_wrap .main1 .main1-2 .main1-2-1 p{
+		font-size:1.2em;
+	}
+	#main .main_position .main_wrap .main1 .main1-2 .main1-2-2{
+		position:absolute;
+		top:20px;
+		left:274px;
+	}
+	#main .main_position .main_wrap .main1 .main1-2 .main1-2-2 p{
+		font-size:1.4em;
+	}
+	#main .main_position .main_wrap .main1 .main1-2 .main1-2-3{
+		position:absolute;
+		left:258px; 
+		top:83px;
+		border-bottom:1px solid #dee0e3;
+		border-top:1px solid #dee0e3;
+	}
+	.main1-2-3 a{
+		color:black;
+		text-decoration:none;
+	}
+	#main .main_position .main_wrap .main1 .main1-2 .main1-2-3 ul{
+		margin:0px;
+		padding-left: 20px;
+		padding-right: 20px;
+	}
+	#main .main_position .main_wrap .main1 .main1-2 .main1-2-3 ul li{
+		width:173px; 
+		font-size:2em;
+		padding-top:7px;
+	}
+	#main .main_position .main_wrap .main2{
+		position: relative;
+		height:600px;
+		top:50px;
+	}
+	#main .main_position .main_wrap .main2 .main2-1{
+		position: absolute;
+		color:#158CBA;
+		left:25px;
+		text-align:left;
+	}
+	.main2-1 .jjim_sub{
+		margin:50px 0px 20px 50px;
+	}
+	.main2-2 .jjim_expl{
+		margin:36px 0px 20px 0px;
+		font-size:1.24em;
+		text-align:left;
+		padding-left:30px;
+	}
+	#main .main_position .main_wrap .main2 .main2-2{
+		position: absolute;
+		left:227px;
+		top:20px;		
+	}
+	.main2-2 #con_expl{
+		
+	}
+	#con_expl{
+		text-align: left;
+		font-size:1.2em;
+	}
+	
+	#main .main_position .main_wrap .main2 .main2-3{
+		position: absolute;
+		top:100px;
+		left:28px;
+	}
+	.main2-3 #jjim_wrap{
+		position:relative;
+		top:50px;
+		left:30px;
+	}
+	#main .main_position .main_wrap .main2 .main2-3 select{
+		width:150px;
+		height:35px;
+		padding-left: 50px;
+	}
+	#main .main_position .main_wrap .main2 .main2-4{
+		position: absolute;
+		top:100px;
+		left:230px;
+	}
+	#main .main_position .main_wrap .main2 .main2-4 #con_title{
+		width:720px;
+		text-align: left;
+		padding-left: 10px;
+	}
+	#main .main_position .main_wrap .main2 .main2-5{
+		position: absolute;
+		top:148px;
+		left:28px;
+	}
+	#main .main_position .main_wrap .main2 .main2-5 #con_content{
+		text-align: left;
+		padding-left: 10px;
+		width:96.5%;
+		height:200px;
+	}
+	#main .main_position .main_wrap .main2 .main2-6{
+		position: absolute;
+		top:377px;  
+	}
+	#main .main_position .main_wrap .main2 .main2-6 ul li{
+		width:312px;
+	}
+	#main .main_position .main_wrap .main2 .main2-6 ul li select{
+		width:150px;
+		height:35px;
+	}
+	#main .main_position .main_wrap .main2 .main2-6 ul li:first-child{
+		text-align:left;
+		padding-left:40px;
+	}
+	#main .main_position .main_wrap .main2 .main2-6 #main2-6_subBtn{
+		width:918px;
+		margin-left:37px;
+		background-color:white;
+		border-radius:7px;
+		height:70px;
+		border:1px solid lightgray;		
+	}
+	.main3{
+		position:relative;
+		top:60px;
+	}
+	#main .main_position .main_wrap .main3 .main3-1 ul li:first-child{
+		color:#158CBA;
+		padding-left:25px;
+		padding-top:50px;
+		padding-bottom:30px;
+	}
+	#main .main_position .main_wrap .main3 .main3-1 ul li:first-child h3{
+		text-align:left;
+		margin:0px;
+	}
+	#main .main_position .main_wrap .main3 .main3-1 ul li:last-child{
+		margin-top:70px;
+		padding-left:30px;
+		padding-bottom:30px;
+	}
+	#main .main_position .main_wrap .main3 .main3-1 ul li:last-child #main3-1_text{
+		width:673px;
+		height:33px;
+		float:left;
+	}
+	#main .main_position .main_wrap .main3 .main3-1 ul li:last-child #main3-1_btn{
+		width:70px;
+		height:34px;
+	}
+	#main .main_position .main_wrap .main3 .main3-2 .main_content{
+	position:relative;
+	}
+	#main .main_position .main_wrap .main3 .main3-2 .main_content_border{
+	border:1px solid #d3d3de;
+	margin-bottom:50px;
+	margin-left:2%;
+	margin-right:2%;
+	}
+	#main .content_message,.content_good,.content_view{
+		float:left;
+		margin-right:15px;
+	}
+	.commentView{
+		cursor: pointer;
+	}
+	.comment_text{
+		width:85%;
+	}
+	.comment_btn{
+		position:absolute;
+		right: 9px;
+		width: 14%;
+		height:66px;
+		border-radius: 10px;
+	}
+
+.jjim{
+	width:20%;
+	float:left;	
+	margin:30px 14px;
+	display:inline-table;
+}
+.paging{
+	width:450px;
+	position:relative;
+	top: 200px;		
+}
+.paging ul{
+	width:fit-content;
+}
+.big{
+	font-size:1.5em;
+}
+.contentsModifyView{
+		cursor:pointer;
+		color:cornflowerblue;
+		position: absolute;
+		right:230px;
+	}
+	.contentsDelete{
+		cursor: pointer;
+		color:cornflowerblue;
+		position: absolute;
+		right:157px;
+	}
+	.contentsReport{
+		cursor: pointer;
+		color:cornflowerblue;
+		position: absolute;
+		right:88px;
+	}
+	.card-text{
+		font-size:1.2em;
+	}
+	.card-header{
+		text-align:left;	
+		font-size:1.13em;	
+	}
+	.q_star{
+		float:left;
+		padding-right:30px;
+	}
+	.q_input{
+		float:left;
+		width:740px;
+	}
+	.qanswer_btn{
+		height:77px;
+		width:170px;
+	}
+	.qBtn_set{
+		float:right;
+	}
+	
+	.q_btn{
+		width:170px;
+		height:40px;
+	}
+	
+	.q_modify_input{
+		float:left;
+		width:740px;
+		position:relative;
+		top:40px;
+	}
+	.q_modify_btn{
+		height:77px;
+		width:170px;
+	}
+	

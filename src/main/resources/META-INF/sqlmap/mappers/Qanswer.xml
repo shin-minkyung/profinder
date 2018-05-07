@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Qanswer">
+	<resultMap type="Qanswer" id="QanswerResult">
+		<result column="q_num" property="q_num"/>
+		<result column="qa_content" property="qa_content"/>
+		<result column="qa_date" property="qa_date"/>
+		<result column="p_nickname" property="p_nickname"/>
+	</resultMap>
+	
+	<!-- QANSWER Insert -->
+	<insert id="qanswerInsert" parameterType="Qanswer"> 
+	INSERT INTO QANSWER(Q_NUM, QA_CONTENT) VALUES(#{q_num}, #{qa_content}) </insert>
+
+	<!-- QANSWER List -->
+	<select id="qanswerList" parameterType="String" resultMap="QanswerResult"> 
+	SELECT QA.* FROM QANSWER QA, QUESTION Q WHERE QA.Q_NUM = Q.Q_NUM AND Q.Q_NUM=#{q_num} ORDER BY QA_DATE </select>
+	
+	<!-- QANSWER Content -->
+	<select id="qanswerContent" parameterType="String" resultMap="QanswerResult"> 
+	SELECT * FROM QANSWER WHERE Q_NUM=#{q_num} </select>
+	
+	<!-- QANSWER Modify-->
+	<update id="qanswerModify" parameterType="Qanswer"> 
+	UPDATE QANSWER SET QA_CONTENT=#{qa_content} WHERE Q_NUM=#{q_num} 
+	</update>
+	
+	<!-- QANSWER delete-->
+	<delete id="qanswerDelete" parameterType="String"> 
+	DELETE FROM QANSWER WHERE Q_NUM=#{Q_NUM} 
+	</delete>
+	
+	<insert id="qanwerAutoInsert" parameterType="Qanswer"> 
+	INSERT INTO QANSWER VALUES(#{q_num}, #{qa_content}, default) 
+	</insert>
+	
+	<select id="getQanswer" parameterType="String" resultMap="QanswerResult">
+	SELECT*FROM QANSWER WHERE Q_NUM=#{q_num}
+	</select>
+</mapper>

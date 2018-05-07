@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Likes">
+	<resultMap type="Likes" id="LikesResult">
+		<result column="l_num" property="l_num"/>
+		<result column="l_liker" property="l_liker"/>
+		<result column="cnt" property="cnt"/>
+		<result column="startRow" property="startRow"/>
+		<result column="endRow" property="endRow"/>
+	</resultMap>
+	<select id="likesMainBannerNewsfeed" resultMap="LikesResult">
+		SELECT * FROM(SELECT ROWNUM R,A.* FROM
+    		(SELECT L_NUM,COUNT(L_NUM) CNT FROM LIKES WHERE L_NUM LIKE 'NEWSFEED%'
+        		GROUP BY L_NUM ORDER BY CNT DESC)A)
+            		WHERE R BETWEEN 1 AND 3
+	</select>
+	<select id="likesMainBannerNewsfeedAjax" parameterType="Likes" resultMap="LikesResult">
+		SELECT * FROM(SELECT ROWNUM R,A.* FROM
+    		(SELECT L_NUM,COUNT(L_NUM) CNT FROM LIKES WHERE L_NUM LIKE 'NEWSFEED%'
+        		GROUP BY L_NUM ORDER BY CNT DESC)A)
+            		WHERE R BETWEEN #{startRow} AND #{endRow}
+	</select>
+	<select id="likesMainBannerContents" resultMap="LikesResult">
+		SELECT * FROM(SELECT ROWNUM R,A.* FROM
+    		(SELECT L_NUM,COUNT(L_NUM) CNT FROM LIKES WHERE L_NUM LIKE 'CONTENTS%'
+        		GROUP BY L_NUM ORDER BY CNT DESC)A)
+            		WHERE R BETWEEN 1 AND 3
+	</select>
+	<select id="likesMainBannerContentsAjax" parameterType="Likes" resultMap="LikesResult">
+		SELECT * FROM(SELECT ROWNUM R,A.* FROM
+    		(SELECT L_NUM,COUNT(L_NUM) CNT FROM LIKES WHERE L_NUM LIKE 'CONTENTS%'
+        		GROUP BY L_NUM ORDER BY CNT DESC)A)
+            		WHERE R BETWEEN #{startRow} AND #{endRow}
+	</select>
+	<select id="likesMainBannerQuestion" resultMap="LikesResult">
+		SELECT * FROM(SELECT ROWNUM R,A.* FROM
+    		(SELECT L_NUM,COUNT(L_NUM) CNT FROM LIKES WHERE L_NUM LIKE 'QUESTION%'
+        		GROUP BY L_NUM ORDER BY CNT DESC)A)
+            		WHERE R BETWEEN 1 AND 3
+	</select>
+	<select id="likesMainBannerQuestionAjax" parameterType="Likes" resultMap="LikesResult">
+		SELECT * FROM(SELECT ROWNUM R,A.* FROM
+    		(SELECT L_NUM,COUNT(L_NUM) CNT FROM LIKES WHERE L_NUM LIKE 'QUESTION%'
+        		GROUP BY L_NUM ORDER BY CNT DESC)A)
+            		WHERE R BETWEEN #{startRow} AND #{endRow}
+	</select>
+	<insert id="like" parameterType="Likes">
+		INSERT INTO LIKES VALUES(#{l_num}, #{l_liker})
+	</insert> 
+	<select id="topEduQuestion6" resultMap="LikesResult">
+	SELECT * FROM(SELECT ROWNUM R,A.* FROM
+    		(SELECT L_NUM,COUNT(L_NUM) CNT FROM LIKES L, QUESTION Q WHERE L_NUM LIKE 'QUESTION%' AND L_NUM=Q_NUM AND CATE_NUM=1
+        		GROUP BY L_NUM ORDER BY CNT DESC)A)
+            		WHERE R BETWEEN 1 AND 6	  
+	</select>
+	<select id="topQuestions" resultMap="LikesResult">
+	SELECT * FROM(SELECT ROWNUM R,A.* FROM
+    		(SELECT L_NUM,COUNT(L_NUM) CNT FROM LIKES L, QUESTION Q WHERE L_NUM LIKE 'QUESTION%' AND L_NUM=Q_NUM AND CATE_NUM=#{cate_num}
+        		GROUP BY L_NUM ORDER BY CNT DESC)A)
+            		WHERE R BETWEEN #{startRow} AND #{endRow}	
+	</select>
+	<select id="fboardLikesChk" parameterType="Likes" resultType="int"> 
+	SELECT COUNT(*) FROM LIKES WHERE L_NUM=#{l_num} AND L_LIKER=#{l_liker} 
+	</select>
+</mapper>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="NewsComment">
+	<resultMap type="NewsComment" id="NewsCommentResult">
+		<result column="nc_num" property="nc_num"/>
+		<result column="n_num" property="n_num"/>
+		<result column="nc_name" property="nc_name"/>
+		<result column="nc_content" property="nc_content"/>
+		<result column="nc_date" property="nc_date"/>
+		<result column="nc_del" property="nc_del"/>
+		<result column="nc_ip" property="nc_ip"/>
+	</resultMap>
+	<select id="newsCommentSelect" parameterType="String" resultMap="NewsCommentResult">
+		SELECT * FROM NEWS_COMMENT 
+    		WHERE NC_DEL = 0 AND N_NUM = #{n_num} ORDER BY NC_DATE
+	</select>
+	<insert id="newsCommentInsert" parameterType="NewsComment">
+		INSERT INTO NEWS_COMMENT VALUES('NEWS_COMMENT'||NEWS_COMMENT_SEQ.NEXTVAL,
+    		#{n_num},#{nc_name},#{nc_content},SYSDATE,0,#{nc_ip})
+	</insert>
+</mapper>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Report">
+	<resultMap type="Report" id="ReportResult">
+		<result column="rep_num" property="rep_num"/>
+		<result column="rep_reporter" property="rep_reporter"/>
+		<result column="rep_why" property="rep_why"/>
+	</resultMap>
+	<insert id="ReportInsert" parameterType="Report">
+		INSERT INTO REPORT VALUES(#{rep_num}, #{rep_reporter}, #{rep_why}, default)
+	</insert>
+</mapper>

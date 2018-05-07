@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Faq">
+	<resultMap type="Faq" id="FaqResult">
+		<result column="faq_num" property="faq_num"/>
+		<result column="faq_catenum" property="faq_catenum"/>
+		<result column="faq_title" property="faq_title"/>
+		<result column="faq_content" property="faq_content"/>
+	</resultMap>
+	<select id="faqViewList" parameterType="String" resultType="Faq">
+		SELECT * FROM FAQ
+	</select>
+	<select id="faqViewList1" parameterType="String" resultType="Faq">
+		SELECT * FROM FAQ WHERE FAQ_CATENUM = '1'
+	</select>
+	<select id="faqViewList2" parameterType="String" resultType="Faq">
+		SELECT * FROM FAQ WHERE FAQ_CATENUM = '2'
+	</select>
+	<select id="faqViewList3" parameterType="String" resultType="Faq">
+		SELECT * FROM FAQ WHERE FAQ_CATENUM = '3'
+	</select>
+</mapper>

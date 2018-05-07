@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Fboard">
+	<resultMap type="Fboard" id="FboardResult">
+		<result column="fb_num" property="fb_num"/>
+		<result column="fb_name" property="fb_name"/>
+		<result column="fb_photo" property="fb_photo"/>
+		<result column="fb_title" property="fb_title"/>
+		<result column="fb_content" property="fb_content"/>
+		<result column="fb_file1" property="fb_file1"/>
+		<result column="fb_file2" property="fb_file2"/>
+		<result column="fb_file3" property="fb_file3"/>
+		<result column="fb_date" property="fb_date"/>
+		<result column="fb_hit" property="fb_hit"/>
+		<result column="fb_del" property="fb_del"/>
+		<result column="fb_ip" property="fb_ip"/>
+		<result column="rn" property="rn"/>
+		<result column="likecnt" property="likecnt"/>
+		<result column="total" property="total"/>
+	</resultMap>
+	<!-- FBOARD List -->
+	<select id="fboardList" resultMap="FboardResult">
+		SELECT * FROM (SELECT ROWNUM RN,A.* FROM
+   			(SELECT * FROM FBOARD WHERE FB_DEL=0 ORDER BY FB_DATE DESC)A)
+        		WHERE RN BETWEEN 1 AND 10
+	</select>
+	<!-- FBOARD Insert -->
+	<insert id="fboardInsert" parameterType="Fboard">
+		INSERT INTO FBOARD(FB_NUM, FB_NAME, FB_TITLE, FB_CONTENT, FB_PHOTO, FB_IP)
+    		VALUES('FBOARD'||FBOARD_SEQ.NEXTVAL, #{fb_name}, #{fb_title}, #{fb_content}, #{fb_photo}, #{fb_ip})
+	</insert>
+	<!-- FBOARD ModifyView -->
+	<select id="fboardModifyView" parameterType="String" resultMap="FboardResult">
+		SELECT * FROM FBOARD WHERE FB_NUM=#{fb_num}
+	</select>
+	<!-- FBOARD Delete -->
+	<update id="fboardDelete" parameterType="String">
+		 UPDATE FBOARD SET FB_DEL = 1 WHERE FB_NUM=#{fb_num}
+	</update>
+	<!-- FBOARD Modify -->
+	<update id="fboardModify" parameterType="Fboard">
+		UPDATE FBOARD SET FB_TITLE = #{fb_title}, FB_CONTENT=#{fb_content}
+    	WHERE FB_NUM=#{fb_num}
+	</update>
+
+	<!-- FBOARD fb_hit + 1 -->
+	<update id="fboardHitup" parameterType="String">
+		UPDATE FBOARD SET FB_HIT = FB_HIT + 1 WHERE FB_NUM=#{fb_num}
+	</update>
+	<!-- FBOARD Search -->	
+	<select id="fboardSearch" parameterType="Fboard" resultMap="FboardResult">
+		<if test="fb_name == 1">
+			SELECT * FROM FBOARD WHERE FB_DEL = 0 AND FB_NAME LIKE '%'||#{fb_content}||'%' ORDER BY FB_DATE DESC
+		</if>
+		<if test="fb_name == 2">
+			SELECT * FROM FBOARD WHERE FB_DEL = 0 AND FB_TITLE LIKE '%'||#{fb_content}||'%' ORDER BY FB_DATE DESC
+		</if>
+		<if test="fb_name == 3">
+			SELECT * FROM FBOARD WHERE FB_DEL = 0 AND FB_CONTENT LIKE '%'||#{fb_content}||'%' ORDER BY FB_DATE DESC
+		</if>
+		<if test="fb_name == ''">
+			SELECT * FROM FBOARD WHERE FB_DEL = 0 ORDER BY FB_DATE DESC
+		</if>
+	</select>
+	<!-- Fboard Scroll -->
+	<select id="fboardListajax" parameterType="int" resultMap="FboardResult">
+		SELECT FB.*, NVL(B.LIKECNT,0) LIKECNT
+        FROM(SELECT * FROM
+		    (SELECT ROWNUM RN, A.* FROM
+		    (SELECT F.*, NVL(FC.TOTAL,0) TOTAL  FROM FBOARD F, (SELECT FB_NUM, COUNT(*) AS TOTAL FROM FB_COMMENT WHERE FC_DEL = 0 GROUP BY FB_NUM) FC
+    		WHERE F.FB_NUM=FC.FB_NUM(+) AND FB_DEL = 0 ORDER BY FB_DATE DESC) A)
+		    WHERE RN = #{rn}) FB, 
+            (SELECT L_NUM, COUNT(*) LIKECNT FROM LIKES GROUP BY L_NUM) B
+        	WHERE FB.FB_NUM=B.L_NUM(+)
+	</select>
+	<select id="fboardLikeCnt" parameterType="String" resultType="int" >
+		SELECT COUNT(L_NUM) LIKECNT FROM LIKES WHERE L_NUM = #{fb_num}
+	</select>
+	<select id="fboardTotal" parameterType="String" resultType="int">
+		SELECT COUNT(FB_NUM) TOTAL FROM FB_COMMENT WHERE FB_NUM = #{fb_num}
+	</select>
+</mapper>

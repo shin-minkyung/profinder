@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Visited">
+	<resultMap type="Visited" id="VisitedResult">
+		<result column="p_email" property="p_email"/>
+		<result column="v_visitor" property="v_visitor"/>
+		<result column="v_date" property="v_date"/>
+	</resultMap>
+	<insert id="insertVisit" parameterType="Visited">
+	INSERT INTO VISITED VALUES(#{p_email},#{v_visitor},default)
+	</insert>
+	<select id="chkifVisitedtoday" parameterType="Visited"  resultType="int">
+	SELECT COUNT(*) FROM VISITED WHERE V_VISITOR=#{v_visitor} AND P_EMAIL=#{p_email} AND TO_CHAR(SYSDATE,'YY/MM/DD')=TO_CHAR(V_DATE,'YY/MM/DD')
+	</select>
+	<select id="getVisitTodayCnt" parameterType="String" resultType="int">
+	SELECT COUNT(*) FROM VISITED WHERE P_EMAIL=#{p_email} AND TO_CHAR(SYSDATE,'YY/MM/DD')=TO_CHAR(V_DATE,'YY/MM/DD')
+	</select>
+	<select id="getVisitTotalCnt" parameterType="String" resultType="int">
+	SELECT COUNT(*) FROM VISITED WHERE P_EMAIL=#{p_email}
+	</select>
+	<select id="getmyFinderTodayVisitor" parameterType="Visited" resultType="Visited">
+	SELECT*FROM (SELECT ROWNUM R, A.* FROM
+    (SELECT V.*, F_PHOTO1 FROM VISITED V, FINDERMEMBERS F WHERE P_EMAIL=#{p_email} AND V_VISITOR=F.F_EMAIL AND TO_CHAR(SYSDATE,'YY/MM/DD')=TO_CHAR(V_DATE,'YY/MM/DD')) A)
+       WHERE R BETWEEN #{startRow} AND #{endRow}
+	</select>
+	<select id="getmyFinderVisitorAll" parameterType="Visited" resultType="Visited">
+	SELECT*FROM (SELECT ROWNUM R, A.* FROM
+    (SELECT V.*, F_PHOTO1 FROM VISITED V, FINDERMEMBERS F WHERE P_EMAIL=#{p_email} AND V_VISITOR=F.F_EMAIL) A)
+       WHERE R BETWEEN #{startRow} AND #{endRow} 
+	</select>
+</mapper>

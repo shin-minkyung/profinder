@@ -1,0 +1,171 @@
+@charset "UTF-8";
+*{
+	margin:0 auto;
+	text-decoration: none;
+	list-style:none;
+	text-align:center;
+	padding:0;
+}
+input[type=text], input[type=email], input[type=password]{
+	text-align:left;
+}
+
+body{
+	background-color:#f4f4f4;
+	
+}
+ul{
+	overflow: hidden;
+}
+li{
+	float:left;
+}
+#admin_login{
+	display:inline-block;
+	float:left;
+	width:50px;
+	height:100px;
+	text-align:left;
+}
+#admin_login a{
+	color:#f4f4f4;
+}
+#admin_login td{
+	padding:7px;
+}
+#admin_login #hiddenBtn{
+	background-color:#f4f4f4;
+	border:0;
+	outline:0;
+	color:#f4f4f4;
+	width:50px;
+	height:50px;
+	z-index:200;
+	position:absolute;	
+}
+
+#header{
+	position:relative;
+	width:100%;
+	height:50px;
+	z-index: 1;
+	background-color:#f4f4f4;
+	background-color:rgba(244,244,244,0.7);
+	
+}
+#header .header_position{
+	position:fixed;
+	width:100%;
+	background-color:rgba(244,244,244,0.7);
+	height:50px;
+}
+#header .header_position .header_wrap{
+	position: relative;
+	width:1000px;
+	
+}
+#header .header_position .header_wrap .header1{
+	position:absolute;
+	left:5px;
+	top:2px;
+}
+#header .header_position .header_wrap .header2{
+	position:absolute;
+	left:287px;
+	top:0px;
+	width:120px;
+}
+#header .header_position .header_wrap .header2 #header_search{
+	position: absolute;
+	top:15px;
+	left:-15px;
+	width:378px;
+	text-align: left;
+	padding-left: 10px;
+}
+#header .header_position .header_wrap .header2 #header_btn{
+	position: absolute;
+	left:362px;
+	top:15px;
+	
+}
+#header .header_position .header_wrap .header3{
+	position:absolute;
+	right:5px;
+	top:10px;
+}
+#header .header_position .header_wrap .header3 ul{
+	margin-top:-8px;
+}
+#header .header_position .header_wrap .header3 ul li{
+	width:52px;
+}
+#header .header_position .header_wrap .header3 ul li:first-child{
+	position:relative;
+
+}
+#header .header_position .header_wrap .header3 ul li .user_img{
+	width:40px;
+	height:auto;
+	margin-top:6px;
+	margin-left:12px;
+	border-radius:22px;
+	float:left;
+}
+#header .header_position .header_wrap .header3 ul li .join_img{
+	margin-top:-3px;
+	margin-right:6px;
+}
+#header .header_position .header_wrap .header3 ul li .modify_img{
+	margin-top:2px;
+	margin-left:9px;
+}
+#header .header_position .header_wrap .header3 ul li .login_img{
+	margin-top:10px;
+}
+#header .header_position .header_wrap .header3 ul li .logout_img{
+	margin-top:15px;
+}
+#header .header_position .header_wrap .header3 ul li .board_img{
+	margin-top:7px;
+	margin-left:3px;
+}
+.alarm_noti{
+	width:fit-content;
+	border-radius:5px;	
+	color:#fff;
+	position:relative;
+	top:-28px;
+	left:12px;
+	padding-left:1px;
+	padding-right:1px;
+	line-height:130%;
+}
+.acti{
+	background-color:red;
+}
+.inacti{
+	background-color:lightgray;
+}
+#notification{
+	background-color: #fff;
+	width:200px;
+	position:relative;
+	left:-70px;
+	top:-8px;
+	text-align:left;
+	padding:7px;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+	border:1px solid lightgray;
+	display:none;	
+}
+.al_photo{
+	width:35px;
+	float:left;
+}
+.al_notifi{
+	text-align:left;
+}
+#memberLoginForm td{
+	padding:7px;
+}

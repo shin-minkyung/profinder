@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Fpage">
+	<resultMap type="Fpage" id="FpageResult">
+	<!-- promembers -->
+		<result column="p_email" property="p_email"/>
+		<result column="p_nickname" property="p_nickname"/>
+		<result column="p_photo1" property="p_photo1"/>
+		<result property="ccnt" column="ccnt"/>
+		<result property="lcnt" column="lcnt"/>
+	
+	<!-- findermembers -->	
+		<result column="f_email" property="f_email"/>
+		<result column="f_nickname" property="f_nickname"/>
+		<result column="f_photo1" property="f_photo1"/>  
+	
+	<!-- category -->	
+		<result column="cate_num" property="cate_num"/>
+		<result column="cate_name" property="cate_name"/>
+	
+	<!-- paging 관련 -->
+		<result column="r" property="r"/>
+		<result column="startRow" property="startRow"/>
+		<result column="endRow" property="endRow"/>
+				
+	<!-- newsfeed  -->
+		<result column="n_num" property="n_num"/>
+		<result column="n_title" property="n_title"/>
+		<result column="n_content" property="n_content"/>
+		<result column="n_date" property="n_date"/>
+		<result column="n_hit" property="n_hit"/>
+		<result column="n_del" property="n_del"/>
+		<result column="n_ip" property="n_ip"/>	
+	
+	<!-- contents -->
+		<result column="con_num" property="con_num"/>
+		<result column="con_title" property="con_title"/>
+		<result column="con_content" property="con_content"/>
+		<result column="con_file1" property="con_file1"/>
+		<result column="con_file2" property="con_file2"/>
+		<result column="con_file3" property="con_file3"/>
+		<result column="con_price" property="con_price"/>
+		<result column="con_date" property="con_date"/>
+		<result column="con_download" property="con_download"/>
+		<result column="con_del" property="con_del"/>
+		
+	<!-- buy -->
+		<result column="buy_date" property="buy_date"/>
+	
+	<!-- question -->		
+		<result column="q_num" property="q_num"/>
+		<result column="q_title" property="q_title"/>
+		<result column="q_content" property="q_content"/>
+		<result column="q_date" property="q_date"/>
+		<result column="q_price" property="q_price"/>
+		<result column="q_accept" property="q_accept"/> 
+		<result column="q_show" property="q_show"/> 
+		<result column="q_star" property="q_star"/>	
+		
+	
+	</resultMap>
+	<!-- fpageNewsfeed -->
+	<select id="fpageNewsfeedList" parameterType="String" resultMap="FpageResult">
+		SELECT * FROM (SELECT ROWNUM R,A.* FROM
+    		(SELECT N.*,F.F_EMAIL,P.P_NICKNAME,P.P_PHOTO1,CA.CATE_NAME 
+        		FROM FAVORITE FV,FINDERMEMBERS F,NEWSFEED N,PROMEMBERS P,CATEGORY CA
+            		WHERE F.F_EMAIL = FV.F_EMAIL AND FV.P_EMAIL = N.P_EMAIL AND N.N_DEL = 0
+                		AND CA.CATE_NUM = N.CATE_NUM AND P.P_EMAIL=FV.P_EMAIL 
+                    		AND FV.F_EMAIL=#{f_email} ORDER BY N.N_DATE DESC)A)
+                        		WHERE R BETWEEN 1 AND 5
+	</select>
+	<select id="fpageNewsfeedAjax" parameterType="Fpage" resultType="Fpage">
+		SELECT * FROM (SELECT ROWNUM R,A.* FROM
+    		(SELECT N.*,F.F_EMAIL,P.P_NICKNAME,P.P_PHOTO1,CA.CATE_NAME 
+        		FROM FAVORITE FV,FINDERMEMBERS F,NEWSFEED N,PROMEMBERS P,CATEGORY CA
+            		WHERE F.F_EMAIL = FV.F_EMAIL AND FV.P_EMAIL = N.P_EMAIL AND N.N_DEL = 0
+                		AND CA.CATE_NUM = N.CATE_NUM AND P.P_EMAIL=FV.P_EMAIL 
+                    		AND FV.F_EMAIL=#{f_email} ORDER BY N.N_DATE DESC)A) 
+                        		WHERE R=#{r}
+	</select>
+	<select id="fpageNewsfeedAjaxChk" parameterType="Fpage" resultType="int">
+		SELECT COUNT(*) FROM (SELECT ROWNUM R,A.* FROM
+    		(SELECT N.*,F.F_EMAIL,P.P_NICKNAME,P.P_PHOTO1,CA.CATE_NAME 
+        		FROM FAVORITE FV,FINDERMEMBERS F,NEWSFEED N,PROMEMBERS P,CATEGORY CA
+            		WHERE F.F_EMAIL = FV.F_EMAIL AND FV.P_EMAIL = N.P_EMAIL AND N.N_DEL = 0
+                		AND CA.CATE_NUM = N.CATE_NUM AND P.P_EMAIL=FV.P_EMAIL 
+                    		AND FV.F_EMAIL=#{f_email} ORDER BY N.N_DATE DESC)A) 
+                        		WHERE R=#{r}
+	</select>
+	
+	<!-- fpageContents -->
+	<select id="fpageContentsList" parameterType="Fpage" resultMap="FpageResult">
+		SELECT * FROM (SELECT ROWNUM R,A.* FROM
+    		(SELECT C.*,F.F_EMAIL,P.P_NICKNAME,P.P_PHOTO1,B.BUY_DATE,CA.CATE_NAME
+        		FROM BUY B,FINDERMEMBERS F,CONTENTS C,PROMEMBERS P,CATEGORY CA
+            		WHERE B.F_EMAIL = F.F_EMAIL AND BUY_NUM = C.CON_NUM
+                		AND CA.CATE_NUM = C.CATE_NUM  AND CON_DEL = 0 
+                    		AND P.P_EMAIL = C.P_EMAIL AND F.F_EMAIL = #{f_email}
+                        		ORDER BY B.BUY_DATE DESC)A)WHERE R BETWEEN #{startRow} AND #{endRow}
+	</select>
+	<select id="fpageContentsListCount" parameterType="String" resultType="int">
+		SELECT COUNT(*) FROM FINDERMEMBERS F,BUY B,CONTENTS C
+    		WHERE F.F_EMAIL=B.F_EMAIL AND B.BUY_NUM = C.CON_NUM
+        		AND F.F_EMAIL=#{f_email}
+	</select>
+	
+	<!-- fpageQuestion-->
+	<select id="fpageQuestionList" parameterType="Fpage" resultMap="FpageResult">
+		SELECT * 
+		    FROM(SELECT ROWNUM R, A.* 
+		            FROM (SELECT Q.*, P_NICKNAME, F_NICKNAME, F_PHOTO1, CATE_NAME
+		                    FROM QUESTION Q, PROMEMBERS P, FINDERMEMBERS F, CATEGORY C
+		                    WHERE Q.P_EMAIL = P.P_EMAIL 
+		                        AND Q.F_EMAIL = F.F_EMAIL 
+		                        AND Q.CATE_NUM = C.CATE_NUM
+		                        AND Q.F_EMAIL = #{f_email}
+		                        AND Q.Q_SHOW = 1
+		                    ORDER BY Q_DATE DESC)A)
+		    WHERE R BETWEEN #{startRow} AND #{endRow}		
+	</select>
+	<select id="fpageQuestionListCount" parameterType="String" resultType="int">
+		SELECT COUNT(*)
+		    FROM QUESTION Q, PROMEMBERS P, FINDERMEMBERS F, CATEGORY C
+		    WHERE Q.P_EMAIL = P.P_EMAIL 
+		        AND Q.F_EMAIL = F.F_EMAIL 
+		        AND Q.CATE_NUM = C.CATE_NUM
+		        AND Q.F_EMAIL = #{f_email}
+		        AND Q.Q_SHOW = 1
+	</select>
+	
+</mapper>

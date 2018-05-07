@@ -1,0 +1,40 @@
+@charset "UTF-8";
+	#fpageRightWing{
+		position:relative;
+		width:1000px;
+	}
+	#fpageRightWing .fpageRightWing_position{
+		
+		position: absolute;
+		left:1006px;
+		top:355px;
+	}
+	#fpageRightWing .fpageRightWing_position .fpageRightWing_wrap{
+		width:140px;
+		height:205px;
+		position: fixed;
+		background-color:white;
+		border:1px solid #dee0e3;
+		box-shadow:1px 2px 4px #d3d3de;
+	}
+	#fpageRightWing .fpageRightWing_position .fpageRightWing_wrap .wing1{
+		border-bottom:1px solid #dee0e3;
+		margin-left:10px;
+		margin-right:10px;
+		padding-top:10px;
+	}
+	#fpageRightWing .fpageRightWing_position .fpageRightWing_wrap .wing1 p{
+		color:#382e84;
+	}
+	#fpageRightWing .fpageRightWing_position .fpageRightWing_wrap .wing1 h3{
+		font-weight:bold;
+	}
+	#fpageRightWing .fpageRightWing_position .fpageRightWing_wrap .wing2{
+		color:#382e84;
+	}
+	#fpageRightWing .fpageRightWing_position .fpageRightWing_wrap .wing2 a{
+		display:block;
+	}
+	#fpageRightWing .fpageRightWing_position .fpageRightWing_wrap .wing2 a img{
+		width:40px;
+	}

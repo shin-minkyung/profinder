@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Buy">
+	<resultMap type="Buy" id="BuyResult">
+		<result column="f_email" property="f_email"/>
+		<result column="buy_num" property="buy_num"/>
+		<result column="buy_date" property="buy_date"/>
+	</resultMap>
+	<insert id="contentsBuy" parameterType="Buy">
+		INSERT INTO BUY VALUES(#{f_email},#{buy_num},SYSDATE)
+	</insert>
+	<select id="contentsBuySelect" parameterType="Buy" resultType="int">
+		SELECT COUNT(*) FROM BUY WHERE F_EMAIL=#{f_email} AND BUY_NUM=#{buy_num}
+	</select>
+</mapper>

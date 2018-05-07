@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Admin">
+	<resultMap type="Admin" id="AdminResult">
+		<result column="ad_id" property="ad_id"/>
+		<result column="ad_pw" property="ad_pw"/>
+		<result column="ad_name" property="ad_name"/>
+	</resultMap>
+<select id="idChk" resultType="int" parameterType="Admin">
+  SELECT COUNT(*) FROM ADMIN WHERE AD_ID=#{ad_id}
+</select>
+<select id="getAdmin" resultType="Admin" parameterType="Admin">
+  SELECT * FROM ADMIN WHERE AD_ID=#{ad_id}
+</select>
+</mapper>

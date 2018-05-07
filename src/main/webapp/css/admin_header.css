@@ -1,0 +1,96 @@
+@charset "UTF-8";
+@font-face{font-family:'Nanum Gothic'; src:url('../font/nanum_gothic_ultralight.ttf')}
+body, table, div, p {font-family:'Nanum Gothic';}
+div,p,input[type=text]{
+	text-align:left !important;		
+}
+
+a:hover{
+	text-decoration: none;
+}
+#submenu a{
+	color:white;
+}
+body{
+	background-color:#f4f4f4;
+}
+li{
+	list-style: none;
+	display:block;
+}
+
+#icon_bar{
+	position:fixed;
+	top:0;
+	left:0;	
+	width:70px;
+	background-color:#3a3a40;
+	height:100%;		
+}
+#icon_bar ul{
+	padding:0px;
+	margin:0;
+}
+#icon_bar li:first-child{
+	text-align:center;
+	margin:0px auto;
+	height:50px;
+	background-color:#1e4e62;
+}
+#icon_bar li:not(#empty){
+	text-align:center;
+	padding-top:10px;
+	padding-bottom:10px;
+}
+#submenu{
+	position:fixed;
+	top:0;
+	left:70px;	
+	width:240px;
+	background-color:#2394c0;
+	height:100%;
+}
+#submenu ul{
+	position:absolute;
+	top:0;
+	left:0px;
+	padding:0px;
+	padding-top:0px;
+	margin:0 auto;	
+	width:100%;
+	
+}
+#logo{
+	text-align:center;
+	height:50px;
+}
+#logo img{
+	position:relative;
+	top:7px;
+}
+#submenu ul li:first-child{
+	box-shadow: 0 0px 10px 0 rgba(0, 0, 0, 0.2), 0 0px 10px 0 rgba(0, 0, 0, 0.19);
+	/*border-bottom:1px solid #1e4e62;*/
+}
+#submenu ul li:not(#logo){
+	padding:15px 30px;
+	color:#fff;
+	font-size:1.5em;
+	text-align:left;
+}
+.inline{
+	display:inline;
+}
+#login{
+	position:absolute;
+	bottom:50px;
+	color:#20dbed;
+	left:30px;
+	font-size:1.3em;
+}
+.active_icon{
+	background-color:#306785;
+}
+.submenu_li{
+	margin-left:40px;
+}

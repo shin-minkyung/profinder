@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Newsfeed">
+	<resultMap type="Newsfeed" id="NewsfeedResult">
+		<result column="n_num" property="n_num"/>
+		<result column="p_email" property="p_email"/>
+		<result column="n_title" property="n_title"/>
+		<result column="n_content" property="n_content"/>
+		<result column="n_date" property="n_date"/>
+		<result column="n_hit" property="n_hit"/>
+		<result column="n_del" property="n_del"/>
+		<result column="n_ip" property="n_ip"/>
+		<result column="cate_num" property="cate_num"/>
+		<result column="p_nickname" property="p_nickname"/>
+		<result column="rn" property="rn"/>
+		<result column="cnt" property="cnt"/>
+		<result column="cate_name" property="cate_name"/>
+		<result column="p_photo1" property="p_photo1"/>
+		<result property="ccnt" column="ccnt"/>
+		<result property="lcnt" column="lcnt"/>
+	</resultMap>
+	<insert id="newsfeedInsert" parameterType="Newsfeed" >
+		INSERT INTO NEWSFEED VALUES
+			('NEWSFEED'||NEWSFEED_SEQ.NEXTVAL,#{p_email},#{n_title},
+				#{n_content},SYSDATE,0,0,#{n_ip},#{cate_num})
+	</insert>
+	<select id="newsfeedMain" resultMap="NewsfeedResult">
+		SELECT * FROM (SELECT ROWNUM R,A.* FROM
+    		(SELECT N.*,P_NICKNAME,P_PHOTO1,CATE_NAME FROM NEWSFEED N,PROMEMBERS P,CATEGORY CA
+        		WHERE CA.CATE_NUM=N.CATE_NUM AND N.P_EMAIL=P.P_EMAIL AND N_DEL = 0 ORDER BY N_DATE DESC)A)
+            		WHERE R BETWEEN 1 AND 5
+	</select>
+	<select id="newsfeedAjax" parameterType="int" resultType="Newsfeed">
+		SELECT * FROM (SELECT ROWNUM R,A.* FROM
+    		(SELECT N.*,P_NICKNAME,P_PHOTO1,CATE_NAME FROM NEWSFEED N,PROMEMBERS P,CATEGORY CA
+        		WHERE CA.CATE_NUM=N.CATE_NUM AND N.P_EMAIL=P.P_EMAIL AND N_DEL = 0 ORDER BY N_DATE DESC)A)
+            		WHERE R=#{rn}
+	</select>
+	<select id="newsfeedMainBanner" parameterType="String" resultType="Newsfeed">
+		SELECT N.*,P_NICKNAME FROM NEWSFEED N,PROMEMBERS P 
+    		WHERE N.P_EMAIL=P.P_EMAIL AND N_NUM = #{n_num}
+	</select>
+	<select id="newsfeedNowNum" resultType="String">
+		SELECT N_NUM FROM (SELECT ROWNUM R,N_NUM FROM
+    		(SELECT N_NUM FROM NEWSFEED ORDER BY N_DATE DESC)A)
+        		WHERE R=1
+	</select>
+	<select id="newsfeedModifyView" parameterType="String" resultType="Newsfeed">
+		SELECT * FROM NEWSFEED WHERE N_NUM = #{n_num}
+	</select>
+	<update id="newsfeedModify" parameterType="Newsfeed">
+		UPDATE NEWSFEED SET N_TITLE = #{n_title},N_CONTENT = #{n_content},CATE_NUM = #{cate_num}
+    		WHERE N_NUM = #{n_num}
+	</update>
+	<insert id="newsfeedAutoInsert" parameterType="Newsfeed">
+		INSERT INTO NEWSFEED VALUES('NEWSFEED'||NEWSFEED_SEQ.NEXTVAL,#{p_email},#{n_title},
+				#{n_content},SYSDATE,#{n_hit},0,#{n_ip},#{cate_num})
+	</insert>
+	<select id="newsfeedView" parameterType="String" resultType="Newsfeed">
+		SELECT * FROM PROMEMBERS P,NEWSFEED N,CATEGORY CA
+    		WHERE P.P_EMAIL=N.P_EMAIL AND CA.CATE_NUM = N.CATE_NUM AND N.N_NUM=#{n_num}
+	</select>
+	<update id="newsfeedDelete" parameterType="String">
+		UPDATE NEWSFEED SET N_DEL = 1 WHERE N_NUM=#{n_num}
+	</update>
+	<select id="newsfeedLikeCnt" parameterType="String" resultType="int"> SELECT COUNT(L_NUM) LCNT FROM LIKES WHERE L_NUM=#{n_num} </select>
+	<select id="newsfeedCommentCnt" parameterType="String" resultType="int"> SELECT COUNT(*) CCNT FROM NEWS_COMMENT WHERE N_NUM=#{n_num} </select>
+</mapper>

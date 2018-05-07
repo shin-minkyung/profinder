@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="FbComment">
+	<resultMap type="FbComment" id="FbCommentResult">
+		<result column="fc_num" property="fc_num"/>
+		<result column="fb_num" property="fb_num"/>
+		<result column="fc_name" property="fc_name"/>
+		<result column="fc_photo" property="fc_photo"/>
+		<result column="fc_content" property="fc_content"/>
+		<result column="fc_group" property="fc_group"/>
+		<result column="fc_group2" property="fc_group2"/>
+		<result column="fc_indent" property="fc_indent"/>
+		<result column="fc_ref" property="fc_ref"/>
+		<result column="fc_date" property="fc_date"/>
+		<result column="fc_del" property="fc_del"/>
+		<result column="fc_ip" property="fc_ip"/>
+	</resultMap>
+	<!-- FBComment Insert -->
+	<insert id="fbCommentInsertView" parameterType="FbComment" >
+		INSERT INTO FB_COMMENT(FC_NUM, FB_NUM, FC_NAME, FC_CONTENT, FC_PHOTO, FC_GROUP,FC_GROUP2, FC_IP)
+    	VALUES('FB_COMMENT'||FB_COMMENT_SEQ.NEXTVAL, #{fb_num}, #{fc_name}, #{fc_content}, #{fc_photo}, 'FB_COMMENT'||FB_COMMENT_SEQ.CURRVAL,'FB_COMMENT'||FB_COMMENT_SEQ.CURRVAL, #{fc_ip})
+    </insert>
+    <!-- FBComment List -->
+    <select id="fbCommentListView" resultMap="FbCommentResult" parameterType="String">
+    	SELECT FB.* FROM FB_COMMENT FB, FBOARD F WHERE F.FB_NUM=#{fb_num} AND F.FB_NUM = FB.FB_NUM ORDER BY FB.FC_GROUP,  FB.FC_GROUP2, FB.FC_DATE
+       </select>
+    <!-- FBComment 원글 가져오기 -->
+    <select id="getFbComment" parameterType="String" resultMap="FbCommentResult">
+    	SELECT * FROM FB_COMMENT WHERE FC_NUM = #{fc_num}
+    </select>
+    <!-- FBComment 대댓글 Insert -->
+    <insert id="fbCommentInserttwo" parameterType="FbComment">
+    		INSERT INTO FB_COMMENT(FC_NUM, FB_NUM, FC_NAME, FC_CONTENT, FC_GROUP, FC_GROUP2, FC_PHOTO, FC_INDENT, FC_REF, FC_IP)
+    		VALUES('FB_COMMENT'||FB_COMMENT_SEQ.NEXTVAL, #{fb_num}, #{fc_name}, #{fc_content}, #{fc_group}, 'FB_COMMENT'||FB_COMMENT_SEQ.CURRVAL, #{fc_photo}, #{fc_indent}, #{fc_ref}, #{fc_ip})
+    </insert>
+    <!-- FBComment 대대댓글 Insert -->
+    <insert id="fbCommentInsertThree" parameterType="FbComment">
+    	INSERT INTO FB_COMMENT(FC_NUM, FB_NUM, FC_NAME, FC_CONTENT, FC_GROUP, FC_GROUP2, FC_PHOTO, FC_INDENT, FC_REF, FC_IP)
+    		VALUES('FB_COMMENT'||FB_COMMENT_SEQ.NEXTVAL, #{fb_num}, #{fc_name}, #{fc_content}, #{fc_group}, #{fc_group2}, #{fc_photo}, #{fc_indent}, #{fc_ref}, #{fc_ip})
+    </insert>
+    <!-- FBComment 댓글 수정 -->
+    <update id="fbCommentUpdate" parameterType="FbComment">
+    	UPDATE FB_COMMENT SET FC_CONTENT = #{fc_content} WHERE FC_NUM=#{fc_num}
+    </update>
+    <!-- FBComment 댓글 삭제여부 변경 -->
+    <update id="fbCommentDelete" parameterType="String">
+    	UPDATE FB_COMMENT SET FC_DEL = 1 WHERE FC_NUM = #{fc_num}
+    </update>
+    <!-- FBComment 댓글 갯수 -->
+    <select id="fbCommentTotal" resultType="String">
+    	SELECT COUNT(*), FB_NUM FROM FB_COMMENT GROUP BY FB_NUM
+    </select>
+</mapper>
